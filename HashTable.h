@@ -35,16 +35,31 @@ class HashTable: public Dict<V> {
             delete[] table;
         }
 
-        void insert (std::string key, V value)override{
-            TableEntry<V> entry(key, value);
-            max++;
-            n++;
-            
+        V search (std::string key)override{
+            int index = h(key);
+            int pos = table[index].search(TableEntry<V>(key));
+            return pos;
         };
 
-        V search (std::string key)override{};
+        void insert (std::string key, V value)override{
+            int index = h(key);
+            if (table[index].search(TableEntry<V>(key)) != -1) {
+                throw std::runtime_error("Key already exists");
+            }
+            table[index].append(TableEntry<V>(key, value));
+            n++;
+        };
 
-        V remove (std::string key)override{};
+        V remove (std::string key)override{
+            int index = h(key);
+            int pos = table[index].search(TableEntry<V>(key));
+            if (pos == -1) {
+                throw std::runtime_error("Key not found");
+            }
+            V value = table[index].remove(pos).value;
+            n--;
+            return value;
+        };
 
         int entries ()override{
             return n;
