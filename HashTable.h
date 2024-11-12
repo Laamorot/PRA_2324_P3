@@ -2,12 +2,13 @@
 #define HASHTABLE_H
 
 #include <ostream>
+#include <iostream>
 #include <stdexcept>
 #include "Dict.h"
 #include "TableEntry.h"
-#include "List.h"
-#include "Node.h"
-#include "ListLinked.h"
+#include "../PRA_2324_P1/Node.h"
+#include "../PRA_2324_P1/List.h"
+#include "../PRA_2324_P1/ListLinked.h"
 
 
 template <typename V>
