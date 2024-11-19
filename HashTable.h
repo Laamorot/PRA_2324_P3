@@ -25,8 +25,8 @@ class HashTable: public Dict<V> {
         for (char c : key) {
             sum += static_cast<int>(c); // Suma de los valores ASCII de los caracteres
         }
-        return sum % max; // Resto de la división entre la suma y el tamaño de la tabla
-    }
+        return sum % max; // Resto de la división entre la suma y el tamaño de la tabla, corresponde a la posicion de la clave en la tabla hash 
+    } 
 
     public:
         // Constructor
@@ -36,12 +36,6 @@ class HashTable: public Dict<V> {
             delete[] table;
         }
 
-        V search (std::string key)override{
-            int index = h(key);
-            int pos = table[index].search(TableEntry<V>(key));
-            return pos;
-        };
-
         void insert (std::string key, V value)override{
             int index = h(key);
             if (table[index].search(TableEntry<V>(key)) != -1) {
@@ -50,6 +44,14 @@ class HashTable: public Dict<V> {
             table[index].append(TableEntry<V>(key, value));
             n++;
         };
+
+        V search (std::string key)override{
+            int index = h(key);
+            int pos = table[index].search(TableEntry<V>(key));  
+            return pos;
+        };
+
+        
 
         V remove (std::string key)override{
             int index = h(key);
@@ -65,6 +67,7 @@ class HashTable: public Dict<V> {
         int entries ()override{
             return n;
         };
+        
         //Devuelve la capacidad de la tabla hash
         int capacity(){
             return max;
@@ -80,13 +83,13 @@ class HashTable: public Dict<V> {
         }
         V operator[](std::string key){
         try {
-            int pos = h(key);
-            for (V node : table[pos]) {
-                if (node.key == key) {
-                    return node.value;
-                }
+            int index = h(key);
+            Node<TableEntry<V>>* current = table[index].first;
+            while (current != nullptr) {
+                if (current->data.key == key) { return current->data.value; }
+                current = current->next;
             }
-            throw std::runtime_error("Key not found");
+         throw std::runtime_error("Key not found");
         } catch (std::runtime_error &e) {
             std::cerr << e.what() << std::endl;
         }
