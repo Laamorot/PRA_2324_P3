@@ -81,19 +81,17 @@ class HashTable: public Dict<V> {
             out << "}";
             return out;
         }
-        V operator[](std::string key){
-        try {
-            int index = h(key);
-            Node<TableEntry<V>>* current = table[index].first;
-            while (current != nullptr) {
-                if (current->data.key == key) { return current->data.value; }
-                current = current->next;
+        V operator[](std::string key) {
+        int index = h(key);
+        Node<TableEntry<V>>* current = table[index].first;
+        while (current != nullptr) {
+            if (current->data.key == key) {
+                return current->data.value;
             }
-         throw std::runtime_error("Key not found");
-        } catch (std::runtime_error &e) {
-            std::cerr << e.what() << std::endl;
+            current = current->next;
         }
-        }
+        throw std::runtime_error("Key not found");
+}
 };
 
 #endif
