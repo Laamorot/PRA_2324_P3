@@ -7,8 +7,6 @@
 #include "Dict.h"
 #include "TableEntry.h"
 #include "../PRA_2324_P1/Node.h"
-#include "../PRA_2324_P1/List.h"
-#include "../PRA_2324_P1/ListLinked.h"
 
 
 template <typename V>
@@ -83,7 +81,7 @@ class HashTable: public Dict<V> {
         }
         V operator[](std::string key) {
 		int index = h(key);
-		int idx = table[index].search(TableEntry<v>(key));
+		int idx = table[index].search(TableEntry<V>(key));
 		if (idx == -1) {
         		throw std::runtime_error("Key not found");
 		}
