@@ -82,16 +82,13 @@ class HashTable: public Dict<V> {
             return out;
         }
         V operator[](std::string key) {
-        int index = h(key);
-        Node<TableEntry<V>>* current = table[index].first;
-        while (current != nullptr) {
-            if (current->data.key == key) {
-                return current->data.value;
-            }
-            current = current->next;
-        }
-        throw std::runtime_error("Key not found");
-}
+		int index = h(key);
+		int idx = table[index].search(TableEntry<v>(key));
+		if (idx == -1) {
+        		throw std::runtime_error("Key not found");
+		}
+		return table[index].get(idx).value;
+	}
 };
 
 #endif
