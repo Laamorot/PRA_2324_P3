@@ -6,8 +6,7 @@
 #include <stdexcept>
 #include "Dict.h"
 #include "TableEntry.h"
-#include "../PRA_2324_P1/Node.h"
-
+#include "../PRA_2324_P1/ListLinked.h"
 
 template <typename V>
 class HashTable: public Dict<V> {
@@ -16,9 +15,9 @@ class HashTable: public Dict<V> {
         // ...
         int n; //Número de elementos almacenados actualmente en la tabla hash.
         int max; //Tamaño de la tabla hash (número total de cubetas).
-        ListLinked<TableEntry<V>>* table; //Array de listas enlazadas.
+        ListLinked<TableEntry<V> > *table; //Array de listas enlazadas.
 
-        int h(std::string key) {
+        int h(const std::string &key) {
         int sum = 0;
         for (char c : key) {
             sum += static_cast<int>(c); // Suma de los valores ASCII de los caracteres
@@ -28,13 +27,15 @@ class HashTable: public Dict<V> {
 
     public:
         // Constructor
-        HashTable(int size) : n(n), max(size), table(new ListLinked<TableEntry<V>>[size]) {};
+        HashTable(int size) : n(0), max(size) {
+		this->table = new ListLinked<TableEntry<V> >[max];
+	};
         //Destructor
         ~HashTable(){
             delete[] table;
         }
 
-        void insert (std::string key, V value)override{
+        void insert (const std::string &key, V value)override{
             int index = h(key);
             if (table[index].search(TableEntry<V>(key)) != -1) {
                 throw std::runtime_error("Key already exists");
@@ -43,15 +44,18 @@ class HashTable: public Dict<V> {
             n++;
         };
 
-        V search (std::string key)override{
+        V search (const std::string &key)override{
             int index = h(key);
-            int pos = table[index].search(TableEntry<V>(key));  
-            return pos;
+            int pos = table[index].search(TableEntry<V>(key));
+	    if (pos == -1) {
+	    	throw std::runtime_error("Key does not exist.");
+	    }
+            return table[index].get(pos).value;
         };
 
         
 
-        V remove (std::string key)override{
+        V remove (const std::string &key)override{
             int index = h(key);
             int pos = table[index].search(TableEntry<V>(key));
             if (pos == -1) {
@@ -72,14 +76,12 @@ class HashTable: public Dict<V> {
         }
         //Sobrecarga del operador << para imprimir la tabla hash
         friend std::ostream& operator<<(std::ostream &out, const HashTable<V> &th) {
-            out << "HashTable(" << th.n << "/" << th.max << "): {";
             for(int i = 0; i < th.max; i++){
-                out << th.table[i];
-            }
-            out << "}";
+                out << i << ": " << th.table[i] << std::endl;
+        	}
             return out;
         }
-        V operator[](std::string key) {
+        V operator[](const std::string &key) {
 		int index = h(key);
 		int idx = table[index].search(TableEntry<V>(key));
 		if (idx == -1) {
