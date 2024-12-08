@@ -12,7 +12,7 @@ class BSNode {
         BSNode<T>* right;
 
         	
-
+        //Constructor
         BSNode(T elem, BSNode<T>* left=nullptr, BSNode<T>* right=nullptr) : elem(elem), left(left), right(right) {}
 
         friend std::ostream& operator<<(std::ostream &out, const BSNode<T> &bsn) {
