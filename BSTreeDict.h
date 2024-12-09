@@ -37,21 +37,21 @@ class BSTreeDict: public Dict<V> {
             tree->insert(entry);
         }
 
-	V search(const std::string key) override {
+        V search(const std::string key) override {
+                TableEntry<V> entry(key, V());
+                return tree->search(entry).value;
+            }
+
+        V remove(const std::string key) override {
             TableEntry<V> entry(key, V());
-            return tree->search(entry).value;
+            V value = tree->search(entry).value;
+            tree->remove(entry);
+            return value;
         }
 
-	V remove(const std::string key) override {
-		TableEntry<V> entry(key, V());
-		V value = tree->search(entry).value;
-		tree->remove(entry);
-		return value;
-	}
-
-	int entries() override {
-		return this->tree->size();
-	}
+        int entries() override {
+            return this->tree->size();
+        }
 
 };
 
