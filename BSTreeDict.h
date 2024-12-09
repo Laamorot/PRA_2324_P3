@@ -26,23 +26,23 @@ class BSTreeDict: public Dict<V> {
             return out;
         }
 
-        V operator[](std::string key) {
+        V operator[](const std::string key) {
             TableEntry<V> entry(key, V());
             return tree->search(entry).value;
         }
 
         //Metodos heredados
-        void insert(std::string key, V value) override {
+        void insert(const std::string key, V value) override {
             TableEntry<V> entry(key, value);
             tree->insert(entry);
         }
 
-	V search(std::string key) override {
+	V search(const std::string key) override {
             TableEntry<V> entry(key, V());
             return tree->search(entry).value;
         }
 
-	V remove(std::string key) override {
+	V remove(const std::string key) override {
 		TableEntry<V> entry(key, V());
 		V value = tree->search(entry).value;
 		tree->remove(entry);
@@ -52,7 +52,7 @@ class BSTreeDict: public Dict<V> {
 	int entries() override {
 		return this->tree->size();
 	}
-    
+
 };
 
 #endif
