@@ -18,9 +18,9 @@ class BSTree{
             if(n == nullptr){
                 throw std::runtime_error("Element not found");
             } else if (n->elem < e){ 
-                return BSNode<T>* search(n->right, e);
+                return search(n->right, e);
             } else if(n->elem > e) {
-                return BSNode<T>* search(n->left, e);
+                return search(n->left, e);
             } else  {
                 return n;
                 }
