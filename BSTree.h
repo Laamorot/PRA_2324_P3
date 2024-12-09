@@ -18,9 +18,9 @@ class BSTree{
             if(n == nullptr){
                 throw std::runtime_error("Element not found");
             } else if (n->elem < e){ 
-                return BSNode<T>* search(n->right, T e);
+                return BSNode<T>* search(n->right, e);
             } else if(n->elem > e) {
-                return BSNode<T>* search(n->left, T e);
+                return BSNode<T>* search(n->left, e);
             } else  {
                 return n;
                 }
@@ -29,7 +29,7 @@ class BSTree{
         BSNode<T> *insert(BSNode<T> *n, T e) {
             if (n == nullptr) {
                 nelem++;
-                return new BSNode(e); 
+                return new BSNode<T>(e); 
                 }
             else if (n->elem == e) {
                 throw std::runtime_error("Duplicate element");
@@ -52,7 +52,7 @@ class BSTree{
 
         BSNode<T> *remove(BSNode<T> *n, T e) {
             if (n == nullptr) {
-                throw std::runtime_error("Elementt not found");
+                throw std::runtime_error("Element not found");
             }
             else if (n->elem < e) {
                 n->right = remove(n->right, e);
@@ -112,8 +112,9 @@ class BSTree{
         
 
         //Public Methods 
-        T search(T elem) const{
-            return search(this->root, elem);
+       T search(T e) const {
+            BSNode<T>* node = search(root, e);
+            return node->elem;
         };
 
         T operator[](T e) const{ return search(e);}
