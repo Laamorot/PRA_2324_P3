@@ -1,8 +1,9 @@
 #ifndef BSTREE_H
 #define BSTREE_H
 
-#include "../BSNode.h"
+#include "BSNode.h"
 #include <ostream>
+#include <stdexcept>
 
 template <typename T>
 class BSTree{
